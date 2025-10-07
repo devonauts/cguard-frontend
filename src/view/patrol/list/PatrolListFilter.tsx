@@ -39,12 +39,12 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  assignedGuard: null,
-  station: null,
+  // assignedGuard omitted - relation field will be undefined by default
+  // station omitted - relation field will be undefined by default
   scheduledTimeRange: [],
-  completed: null,
+  // completed omitted - boolean field will be undefined by default
   completionTimeRange: [],
-  status: null,
+  status: '', // enumerator - empty string gets transformed to null
 }
 
 const previewRenders = {
@@ -80,10 +80,24 @@ function PatrolListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const baseValues = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up any relation/boolean fields that have null values
+    // which would cause Yup casting errors
+    if (baseValues.assignedGuard === null) {
+      delete baseValues.assignedGuard;
+    }
+    if (baseValues.station === null) {
+      delete baseValues.station;
+    }
+    if (baseValues.completed === null) {
+      delete baseValues.completed;
+    }
+    
+    return baseValues;
   });
 
   const form = useForm({

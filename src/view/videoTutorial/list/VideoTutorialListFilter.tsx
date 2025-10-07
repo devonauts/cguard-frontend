@@ -27,9 +27,8 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  videoTutorialName: null,
-  videoTutorialLink: null,
-  videoTutorialCategory: null,
+  videoTutorialName: '',
+  videoTutorialLink: '',
 }
 
 const previewRenders = {
@@ -53,9 +52,16 @@ function VideoTutorialListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
+    const cleanedFilter = { ...rawFilter };
+    
+    // Clean up relation field that might have null values
+    if (cleanedFilter.videoTutorialCategory === null || cleanedFilter.videoTutorialCategory === '') {
+      delete cleanedFilter.videoTutorialCategory;
+    }
+    
     return {
       ...emptyValues,
-      ...rawFilter,
+      ...cleanedFilter,
     };
   });
 

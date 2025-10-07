@@ -31,10 +31,10 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  personInCharge: null,
-  governmentId: null,
-  jobTitle: null,
-  assignedCompany: null,
+  // personInCharge omitted - relation field will be undefined by default
+  governmentId: '',
+  jobTitle: '',
+  // assignedCompany omitted - relation field will be undefined by default
 }
 
 const previewRenders = {

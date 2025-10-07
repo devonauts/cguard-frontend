@@ -36,10 +36,10 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  notification: null,
-  recipientId: null,
-  readStatus: null,
-  deliveryStatus: null,
+  // notification: omitted (relation field)
+  recipientId: '',
+  // readStatus: omitted (boolean field)
+  deliveryStatus: '',
   dateDeliveredRange: [],
 }
 
@@ -72,10 +72,17 @@ function NotificationRecipientListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const combined = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up relation field stored null values
+    if (combined.notification === null || combined.notification === '') {
+      delete combined.notification;
+    }
+    
+    return combined;
   });
 
   const form = useForm({

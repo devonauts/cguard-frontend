@@ -32,11 +32,11 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  companyName: null,
-  description: null,
-  contactPhone: null,
-  contactEmail: null,
-  address: null,
+  companyName: '',
+  description: '',
+  contactPhone: '',
+  contactEmail: '',
+  address: '',
 }
 
 const previewRenders = {

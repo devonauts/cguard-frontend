@@ -1,24 +1,44 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 const ConfirmModal = (props) => {
-  const modalRef = useRef<any>();
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    (window as any).$(modalRef.current).modal('show');
-    (window as any)
-      .$(modalRef.current)
-      .on('hidden.bs.modal', props.onClose);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Show the modal when component mounts
+    setIsVisible(true);
   }, []);
 
+  const handleClose = () => {
+    setIsVisible(false);
+    setTimeout(() => {
+      props.onClose();
+    }, 150); // Small delay to allow animation
+  };
+
   const onConfirm = () => {
-    (window as any).$(modalRef.current).modal('hide');
-    return props.onConfirm();
+    setIsVisible(false);
+    setTimeout(() => {
+      props.onConfirm();
+    }, 150); // Small delay to allow animation
+  };
+
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      handleClose();
+    }
   };
 
   return ReactDOM.createPortal(
-    <div ref={modalRef} className="modal" tabIndex={-1}>
+    <div 
+      className={`modal fade ${isVisible ? 'show' : ''}`} 
+      tabIndex={-1}
+      style={{ 
+        display: isVisible ? 'block' : 'none',
+        backgroundColor: 'rgba(0,0,0,0.5)'
+      }}
+      onClick={handleBackdropClick}
+    >
       <div className="modal-dialog modal-sm">
         <div className="modal-content">
           <div className="modal-header">
@@ -26,23 +46,26 @@ const ConfirmModal = (props) => {
             <button
               type="button"
               className="close"
-              data-dismiss="modal"
+              onClick={handleClose}
             >
-              <span>&times;</span>
+                          <span>&times;</span>
             </button>
+          </div>
+          <div className="modal-body">
+            <p>{props.content}</p>
           </div>
           <div className="modal-footer">
             <button
               type="button"
               className="btn btn-light btn-sm"
-              data-dismiss="modal"
+              onClick={handleClose}
             >
               {props.cancelText}
             </button>
             <button
               type="button"
-              onClick={onConfirm}
               className="btn btn-primary btn-sm"
+              onClick={onConfirm}
             >
               {props.okText}
             </button>
@@ -50,7 +73,7 @@ const ConfirmModal = (props) => {
         </div>
       </div>
     </div>,
-    (document as any).getElementById('modal-root'),
+    document.body,
   );
 };
 

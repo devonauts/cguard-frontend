@@ -11,10 +11,10 @@ function SelectFormItem(props) {
     name,
     hint,
     options,
-    required,
+    required = false,
     mode,
     placeholder,
-    isClearable,
+    isClearable = true,
     externalErrorMessage,
   } = props;
 
@@ -36,6 +36,22 @@ function SelectFormItem(props) {
 
   const originalValue = watch(name);
 
+  // Helper function to safely parse values that might be JSON strings
+  const parseValue = (value) => {
+    if (Array.isArray(value)) {
+      return value;
+    }
+    if (typeof value === 'string' && value.length > 0) {
+      try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed : [parsed];
+      } catch (e) {
+        return [value]; // If it's not JSON, treat as single value
+      }
+    }
+    return value;
+  };
+
   useEffect(() => {
     // Ensure name is a string before registering
     if (name && typeof name === 'string') {
@@ -44,7 +60,6 @@ function SelectFormItem(props) {
   }, [register, name]);
 
   const value = () => {
-    const { mode } = props;
     if (mode === 'multiple') {
       return valueMultiple();
     } else {
@@ -54,17 +69,18 @@ function SelectFormItem(props) {
 
   const valueMultiple = () => {
     if (originalValue) {
-      return originalValue.map((value) =>
-        options.find((option) => option.value === value),
-      );
+      const parsedValue = parseValue(originalValue);
+      if (Array.isArray(parsedValue)) {
+        return parsedValue.map((value) =>
+          options.find((option) => option.value === value),
+        );
+      }
     }
 
     return [];
   };
 
   const valueOne = () => {
-    const { options } = props;
-
     if (originalValue != null) {
       return options.find(
         (option) => option.value === originalValue,
@@ -75,7 +91,6 @@ function SelectFormItem(props) {
   };
 
   const handleSelect = (data) => {
-    const { mode } = props;
     if (mode === 'multiple') {
       return handleSelectMultiple(data);
     } else {
@@ -171,11 +186,6 @@ function SelectFormItem(props) {
     </div>
   );
 }
-
-SelectFormItem.defaultProps = {
-  required: false,
-  isClearable: true,
-};
 
 SelectFormItem.propTypes = {
   name: PropTypes.string.isRequired,

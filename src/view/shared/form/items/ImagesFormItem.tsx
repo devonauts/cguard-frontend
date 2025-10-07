@@ -11,7 +11,7 @@ function ImagesFormItem(props) {
     hint,
     storage,
     max,
-    required,
+    required = false,
     externalErrorMessage,
   } = props;
 
@@ -24,7 +24,7 @@ function ImagesFormItem(props) {
   } = useFormContext();
 
   useEffect(() => {
-    register({ name });
+    register(name);
   }, [register, name]);
 
   const errorMessage = FormErrors.errorMessage(
@@ -69,11 +69,6 @@ function ImagesFormItem(props) {
     </div>
   );
 }
-
-ImagesFormItem.defaultProps = {
-  max: undefined,
-  required: false,
-};
 
 ImagesFormItem.propTypes = {
   storage: PropTypes.object.isRequired,

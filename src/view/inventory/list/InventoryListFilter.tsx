@@ -83,27 +83,27 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  belongsTo: null,
-  belongsToStation: null,
-  radio: null,
-  radioType: null,
-  radioSerialNumber: null,
-  gun: null,
-  gunType: null,
-  gunSerialNumber: null,
-  armor: null,
-  armorType: null,
-  armorSerialNumber: null,
-  tolete: null,
-  pito: null,
-  linterna: null,
-  vitacora: null,
-  cintoCompleto: null,
-  ponchoDeAguas: null,
-  detectorDeMetales: null,
-  caseta: null,
-  observations: null,
-  transportation: null,
+  // belongsTo: omitted (relation field)
+  belongsToStation: '',
+  // radio: omitted (boolean field)
+  radioType: '',
+  radioSerialNumber: '',
+  // gun: omitted (boolean field)
+  gunType: '',
+  gunSerialNumber: '',
+  // armor: omitted (boolean field)
+  armorType: '',
+  armorSerialNumber: '',
+  // tolete: omitted (boolean field)
+  // pito: omitted (boolean field)
+  // linterna: omitted (boolean field)
+  // vitacora: omitted (boolean field)
+  // cintoCompleto: omitted (boolean field)
+  // ponchoDeAguas: omitted (boolean field)
+  // detectorDeMetales: omitted (boolean field)
+  // caseta: omitted (boolean field)
+  observations: '',
+  transportation: '',
 }
 
 const previewRenders = {
@@ -199,10 +199,17 @@ function InventoryListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const combined = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up relation field stored null values
+    if (combined.belongsTo === null || combined.belongsTo === '') {
+      delete combined.belongsTo;
+    }
+    
+    return combined;
   });
 
   const form = useForm({

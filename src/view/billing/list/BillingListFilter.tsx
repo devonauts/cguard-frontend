@@ -43,13 +43,13 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  invoiceNumber: null,
-  status: null,
-  clientsInvoiced: null,
+  invoiceNumber: '',
+  status: '',
+  // clientsInvoiced: omitted (relation field)
   montoPorPagarRange: [],
   lastPaymentDateRange: [],
   nextPaymentDateRange: [],
-  description: null,
+  description: '',
 }
 
 const previewRenders = {
@@ -89,10 +89,17 @@ function BillingListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const combined = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up relation field stored null/empty values
+    if (combined.clientsInvoiced === null || combined.clientsInvoiced === '') {
+      delete combined.clientsInvoiced;
+    }
+    
+    return combined;
   });
 
   const form = useForm({

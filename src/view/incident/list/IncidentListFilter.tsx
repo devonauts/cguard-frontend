@@ -36,10 +36,10 @@ const schema = yup.object().shape({
 
 const emptyValues = {
   dateRange: [],
-  title: null,
-  description: null,
-  wasRead: null,
-  stationIncidents: null,
+  title: '',
+  description: '',
+  // wasRead omitted - boolean field will be undefined by default
+  // stationIncidents omitted - relation field will be undefined by default
 }
 
 const previewRenders = {
@@ -71,10 +71,21 @@ function IncidentListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const baseValues = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up any relation/boolean fields that have null or empty string values
+    // which would cause Yup casting errors
+    if (baseValues.wasRead === null || baseValues.wasRead === '') {
+      delete baseValues.wasRead;
+    }
+    if (baseValues.stationIncidents === null || baseValues.stationIncidents === '') {
+      delete baseValues.stationIncidents;
+    }
+    
+    return baseValues;
   });
 
   const form = useForm({

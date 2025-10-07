@@ -4,6 +4,13 @@ class Roles {
   static get values() {
     return {
       admin: 'admin',
+      operationsManager: 'operationsManager',
+      securitySupervisor: 'securitySupervisor',
+      clientAccountManager: 'clientAccountManager',
+      hrManager: 'hrManager',
+      dispatcher: 'dispatcher',
+      securityGuard: 'securityGuard',
+      customer: 'customer',
       custom: 'custom',
     };
   }

@@ -60,19 +60,19 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  governmentId: null,
-  fullName: null,
-  guard: null,
+  governmentId: '',
+  fullName: '',
+  // guard omitted - relation field will be undefined by default
   hiringContractDateRange: [],
-  gender: null,
-  isOnDuty: null,
-  bloodType: null,
-  guardCredentials: null,
+  gender: '',  // enumerator - empty string gets transformed to null
+  // isOnDuty omitted - boolean field will be undefined by default
+  bloodType: '', // enumerator - empty string gets transformed to null
+  guardCredentials: '',
   birthDateRange: [],
-  birthPlace: null,
-  maritalStatus: null,
-  academicInstruction: null,
-  address: null,
+  birthPlace: '',
+  maritalStatus: '', // enumerator - empty string gets transformed to null
+  academicInstruction: '', // enumerator - empty string gets transformed to null
+  address: '',
 }
 
 const previewRenders = {
@@ -136,10 +136,18 @@ function SecurityGuardListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const baseValues = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up any boolean fields that have empty string values
+    // which would cause Yup casting errors
+    if (baseValues.isOnDuty === '') {
+      delete baseValues.isOnDuty;
+    }
+    
+    return baseValues;
   });
 
   const form = useForm({

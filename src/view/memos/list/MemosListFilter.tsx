@@ -36,10 +36,8 @@ const schema = yup.object().shape({
 
 const emptyValues = {
   dateTimeRange: [],
-  guardName: null,
-  subject: null,
-  content: null,
-  wasAccepted: null,
+  subject: '',
+  content: '',
 }
 
 const previewRenders = {
@@ -71,9 +69,19 @@ function MemosListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
+    const cleanedFilter = { ...rawFilter };
+    
+    // Clean up relation and boolean fields that might have null values
+    if (cleanedFilter.guardName === null || cleanedFilter.guardName === '') {
+      delete cleanedFilter.guardName;
+    }
+    if (cleanedFilter.wasAccepted === null || cleanedFilter.wasAccepted === '') {
+      delete cleanedFilter.wasAccepted;
+    }
+    
     return {
       ...emptyValues,
-      ...rawFilter,
+      ...cleanedFilter,
     };
   });
 

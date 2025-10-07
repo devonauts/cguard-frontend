@@ -30,10 +30,10 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  station: null,
-  name: null,
-  latitud: null,
-  longitud: null,
+  // station omitted - relation field will be undefined by default
+  name: '',
+  latitud: '',
+  longitud: '',
 }
 
 const previewRenders = {
@@ -61,10 +61,18 @@ function PatrolCheckpointListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const baseValues = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up any relation fields that have null values
+    // which would cause Yup casting errors
+    if (baseValues.station === null) {
+      delete baseValues.station;
+    }
+    
+    return baseValues;
   });
 
   const form = useForm({

@@ -36,12 +36,12 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  names: null,
-  city: null,
-  email: null,
-  phoneNumber: null,
-  message: null,
-  serviceOfInterest: null,
+  names: '',
+  city: '',
+  email: '',
+  phoneNumber: '',
+  message: '',
+  // serviceOfInterest: omitted (relation field)
 }
 
 const previewRenders = {
@@ -77,10 +77,17 @@ function InquiriesListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const combined = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up relation field stored null values
+    if (combined.serviceOfInterest === null || combined.serviceOfInterest === '') {
+      delete combined.serviceOfInterest;
+    }
+    
+    return combined;
   });
 
   const form = useForm({

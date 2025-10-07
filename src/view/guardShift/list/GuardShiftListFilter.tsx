@@ -52,13 +52,10 @@ const schema = yup.object().shape({
 
 const emptyValues = {
   punchInTimeRange: [],
-  shiftSchedule: null,
-  stationName: null,
-  guardName: null,
-  completeInventoryCheck: null,
+  shiftSchedule: '',
   numberOfPatrolsDuringShiftRange: [],
   numberOfIncidentsDurindShiftRange: [],
-  observations: null,
+  observations: '',
   punchOutTimeRange: [],
 }
 

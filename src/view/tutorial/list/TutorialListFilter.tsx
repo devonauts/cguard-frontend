@@ -24,8 +24,7 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  tutorialName: null,
-  tutorialCategory: null,
+  tutorialName: '',
 }
 
 const previewRenders = {
@@ -45,9 +44,16 @@ function TutorialListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
+    const cleanedFilter = { ...rawFilter };
+    
+    // Clean up relation field that might have null values
+    if (cleanedFilter.tutorialCategory === null || cleanedFilter.tutorialCategory === '') {
+      delete cleanedFilter.tutorialCategory;
+    }
+    
     return {
       ...emptyValues,
-      ...rawFilter,
+      ...cleanedFilter,
     };
   });
 

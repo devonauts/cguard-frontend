@@ -1,4 +1,4 @@
-import filesize from 'filesize';
+import { filesize } from 'filesize';
 import { i18n } from 'src/i18n';
 import authAxios from 'src/modules/shared/axios/authAxios';
 import { v4 as uuid } from 'uuid';

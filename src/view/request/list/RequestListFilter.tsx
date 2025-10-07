@@ -37,10 +37,10 @@ const schema = yup.object().shape({
 
 const emptyValues = {
   dateTimeRange: [],
-  guardName: null,
-  subject: null,
-  content: null,
-  action: null,
+  // guardName: omitted (relation field)
+  subject: '',
+  content: '',
+  action: '',
 }
 
 const previewRenders = {
@@ -72,10 +72,17 @@ function RequestListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const combined = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up relation field stored null values
+    if (combined.guardName === null || combined.guardName === '') {
+      delete combined.guardName;
+    }
+    
+    return combined;
   });
 
   const form = useForm({

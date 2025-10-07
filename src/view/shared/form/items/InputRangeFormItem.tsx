@@ -3,22 +3,22 @@ import PropTypes from 'prop-types';
 import { useFormContext } from 'react-hook-form';
 import FormErrors from 'src/view/shared/form/formErrors';
 
-function InputRangeFormItem(props) {
-  const {
-    label,
-    name,
-    hint,
-    placeholder,
-    autoFocus,
-    autoComplete,
-    required,
-    externalErrorMessage,
-  } = props;
+function InputRangeFormItem({
+  label,
+  name,
+  hint,
+  placeholder,
+  autoFocus,
+  autoComplete,
+  required = false,
+  externalErrorMessage,
+  onChange,
+  ...props
+}) {
 
   const {
     register,
-    errors,
-    formState: { touched, isSubmitted },
+    formState: { errors, isSubmitted },
     setValue,
     watch,
   } = useFormContext();
@@ -26,7 +26,7 @@ function InputRangeFormItem(props) {
   const errorMessage = FormErrors.errorMessage(
     name,
     errors,
-    touched,
+    {},
     isSubmitted,
     externalErrorMessage,
   );
@@ -34,17 +34,17 @@ function InputRangeFormItem(props) {
   const originalValue = watch(name);
 
   useEffect(() => {
-    register({ name });
+    register(name);
   }, [register, name]);
 
   const handleStartChanged = (value) => {
     setValue(name, [value, endValue()], { shouldValidate: true, shouldDirty: true });
-    props.onChange && props.onChange([value, endValue()]);
+    onChange && onChange([value, endValue()]);
   };
 
   const handleEndChanged = (value) => {
     setValue(name, [startValue(), value], { shouldValidate: true, shouldDirty: true });
-    props.onChange && props.onChange([value, startValue()]);
+    onChange && onChange([value, startValue()]);
   };
 
   const startValue = () => {
@@ -157,10 +157,6 @@ function InputRangeFormItem(props) {
     </div>
   );
 }
-
-InputRangeFormItem.defaultProps = {
-  required: false,
-};
 
 InputRangeFormItem.propTypes = {
   name: PropTypes.string.isRequired,

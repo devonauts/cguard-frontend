@@ -12,7 +12,7 @@ function DatePickerRangeFormItem(props) {
     hint,
     placeholder,
     autoFocus,
-    required,
+    required = false,
     showTimeInput,
     externalErrorMessage,
   } = props;
@@ -36,7 +36,7 @@ function DatePickerRangeFormItem(props) {
   const originalValue = watch(name);
 
   useEffect(() => {
-    register({ name });
+    register(name);
   }, [register, name]);
 
   const handleStartChanged = (value) => {
@@ -179,10 +179,6 @@ function DatePickerRangeFormItem(props) {
     </div>
   );
 }
-
-DatePickerRangeFormItem.defaultProps = {
-  required: false,
-};
 
 DatePickerRangeFormItem.propTypes = {
   name: PropTypes.string.isRequired,

@@ -35,9 +35,7 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  taskBelongsToStation: null,
-  taskToDo: null,
-  wasItDone: null,
+  taskToDo: '',
   dateToDoTheTaskRange: [],
   dateCompletedTaskRange: [],
 }
@@ -71,9 +69,19 @@ function TaskListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
+    const cleanedFilter = { ...rawFilter };
+    
+    // Clean up relation and boolean fields that might have null values
+    if (cleanedFilter.taskBelongsToStation === null || cleanedFilter.taskBelongsToStation === '') {
+      delete cleanedFilter.taskBelongsToStation;
+    }
+    if (cleanedFilter.wasItDone === null || cleanedFilter.wasItDone === '') {
+      delete cleanedFilter.wasItDone;
+    }
+    
     return {
       ...emptyValues,
-      ...rawFilter,
+      ...cleanedFilter,
     };
   });
 

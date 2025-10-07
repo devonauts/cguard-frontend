@@ -31,10 +31,10 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  title: null,
-  station: null,
+  title: '',
+  // station omitted - relation field will be undefined by default
   generatedDateRange: [],
-  content: null,
+  content: '',
 }
 
 const previewRenders = {
@@ -62,10 +62,18 @@ function ReportListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const baseValues = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up any relation fields that have null values
+    // which would cause Yup casting errors
+    if (baseValues.station === null) {
+      delete baseValues.station;
+    }
+    
+    return baseValues;
   });
 
   const form = useForm({

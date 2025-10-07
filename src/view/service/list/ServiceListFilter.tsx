@@ -33,11 +33,11 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  title: null,
-  description: null,
+  title: '',
+  description: '',
   priceRange: [],
-  specifications: null,
-  subtitle: null,
+  specifications: '',
+  subtitle: '',
 }
 
 const previewRenders = {

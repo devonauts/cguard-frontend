@@ -3,22 +3,21 @@ import PropTypes from 'prop-types';
 import { useFormContext } from 'react-hook-form';
 import FormErrors from 'src/view/shared/form/formErrors';
 
-function InputNumberRangeFormItem(props) {
-  const {
-    label,
-    name,
-    hint,
-    placeholder,
-    autoFocus,
-    autoComplete,
-    required,
-    externalErrorMessage,
-  } = props;
+function InputNumberRangeFormItem({
+  label,
+  name,
+  hint,
+  placeholder,
+  autoFocus,
+  autoComplete,
+  required = false,
+  externalErrorMessage,
+  ...props
+}) {
 
   const {
     register,
-    errors,
-    formState: { touched, isSubmitted },
+    formState: { errors, isSubmitted },
     setValue,
     watch,
   } = useFormContext();
@@ -26,7 +25,7 @@ function InputNumberRangeFormItem(props) {
   const errorMessage = FormErrors.errorMessage(
     name,
     errors,
-    touched,
+    {},
     isSubmitted,
     externalErrorMessage,
   );
@@ -34,7 +33,7 @@ function InputNumberRangeFormItem(props) {
   const originalValue = watch(name);
 
   useEffect(() => {
-    register({ name });
+    register(name);
   }, [register, name]);
 
   const handleStartChanged = (value) => {
@@ -157,10 +156,6 @@ function InputNumberRangeFormItem(props) {
     </div>
   );
 }
-
-InputNumberRangeFormItem.defaultProps = {
-  required: false,
-};
 
 InputNumberRangeFormItem.propTypes = {
   name: PropTypes.string.isRequired,

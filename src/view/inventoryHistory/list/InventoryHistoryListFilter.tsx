@@ -36,11 +36,11 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  shiftOrigin: null,
+  // shiftOrigin: omitted (relation field)
   inventoryCheckedDateRange: [],
-  inventoryOrigin: null,
-  isComplete: null,
-  observation: null,
+  // inventoryOrigin: omitted (relation field)
+  // isComplete: omitted (boolean field)
+  observation: '',
 }
 
 const previewRenders = {
@@ -72,10 +72,20 @@ function InventoryHistoryListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const combined = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up relation field stored null values
+    if (combined.shiftOrigin === null || combined.shiftOrigin === '') {
+      delete combined.shiftOrigin;
+    }
+    if (combined.inventoryOrigin === null || combined.inventoryOrigin === '') {
+      delete combined.inventoryOrigin;
+    }
+    
+    return combined;
   });
 
   const form = useForm({

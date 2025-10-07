@@ -38,9 +38,9 @@ const schema = yup.object().shape({
 const emptyValues = {
   timestampRange: [],
   entityNames: [],
-  entityId: null,
-  action: null,
-  createdByEmail: null,
+  entityId: '',
+  action: '',
+  createdByEmail: '',
 };
 
 const previewRenders = {

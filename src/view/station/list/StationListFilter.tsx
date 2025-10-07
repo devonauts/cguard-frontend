@@ -35,11 +35,11 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  stationOrigin: null,
-  stationName: null,
-  stationSchedule: null,
-  startingTimeInDay: null,
-  finishTimeInDay: null,
+  // stationOrigin omitted - relation field will be undefined by default
+  stationName: '',
+  stationSchedule: '', // enumerator - empty string gets transformed to null
+  startingTimeInDay: '',
+  finishTimeInDay: '',
 }
 
 const previewRenders = {
@@ -71,10 +71,18 @@ function StationListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const baseValues = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up any relation fields that have null values
+    // which would cause Yup casting errors
+    if (baseValues.stationOrigin === null) {
+      delete baseValues.stationOrigin;
+    }
+    
+    return baseValues;
   });
 
   const form = useForm({

@@ -29,10 +29,10 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  fullName: null,
-  email: null,
-  role: null,
-  status: null,
+  fullName: '',
+  email: '',
+  role: '',
+  status: '',
 };
 
 const previewRenders = {

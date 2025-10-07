@@ -2104,12 +2104,40 @@ const en = {
 
   roles: {
     admin: {
-      label: 'Admin',
-      description: 'Full access to all resources',
+      label: 'Administrator',
+      description: 'Full system access and administration',
+    },
+    operationsManager: {
+      label: 'Operations Manager',
+      description: 'Manages overall security operations and strategy',
+    },
+    securitySupervisor: {
+      label: 'Security Supervisor',
+      description: 'Supervises security guards and field operations',
+    },
+    clientAccountManager: {
+      label: 'Client Account Manager',
+      description: 'Manages client relationships and accounts',
+    },
+    hrManager: {
+      label: 'HR Manager',
+      description: 'Manages human resources and staff administration',
+    },
+    dispatcher: {
+      label: 'Dispatcher',
+      description: 'Coordinates and schedules security guard assignments',
+    },
+    securityGuard: {
+      label: 'Security Guard',
+      description: 'Field security personnel',
+    },
+    customer: {
+      label: 'Customer',
+      description: 'Client user with limited access to their account',
     },
     custom: {
       label: 'Custom Role',
-      description: 'Custom role access',
+      description: 'Custom role with specific permissions',
     },
   },
 

@@ -2,18 +2,44 @@ let inMemoryToken = null;
 
 export class AuthToken {
   static get() {
-    return (
-      inMemoryToken || localStorage.getItem('jwt') || null
+    const storageToken = localStorage.getItem('jwt');
+    console.log('🔍 AuthToken.get() called');
+    console.log('  📱 inMemoryToken:', inMemoryToken);
+    console.log('  💾 storageToken:', storageToken);
+    
+    const result = (
+      inMemoryToken || 
+      (storageToken && storageToken !== 'null' && storageToken !== '' ? storageToken : null) || 
+      null
     );
+    
+    console.log('  🎯 Final result:', result);
+    console.log('  📏 Result length:', result ? result.length : 'null');
+    
+    return result;
   }
 
   static set(token, rememberMe) {
     if (rememberMe) {
-      localStorage.setItem('jwt', token || '');
+      if (token) {
+        localStorage.setItem('jwt', token);
+      } else {
+        localStorage.removeItem('jwt');
+      }
+      inMemoryToken = null;
     } else {
       inMemoryToken = token;
-      localStorage.setItem('jwt', '');
+      localStorage.removeItem('jwt');
     }
+  }
+
+  static clear() {
+    inMemoryToken = null;
+    localStorage.removeItem('jwt');
+    // Also clear any potential old formats
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('token');
+    sessionStorage.clear();
   }
 
   static applyFromLocationUrlIfExists() {

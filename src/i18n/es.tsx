@@ -2161,12 +2161,40 @@ const es = {
   },
   roles: {
     admin: {
-      label: 'Administración',
-      description: 'Acceso total a todos los recursos.',
+      label: 'Administrador',
+      description: 'Acceso completo al sistema y administración',
+    },
+    operationsManager: {
+      label: 'Gerente de Operaciones',
+      description: 'Gestiona las operaciones de seguridad generales y la estrategia',
+    },
+    securitySupervisor: {
+      label: 'Supervisor de Seguridad',
+      description: 'Supervisa guardias de seguridad y operaciones de campo',
+    },
+    clientAccountManager: {
+      label: 'Gerente de Cuentas de Clientes',
+      description: 'Gestiona las relaciones y cuentas de clientes',
+    },
+    hrManager: {
+      label: 'Gerente de Recursos Humanos',
+      description: 'Gestiona recursos humanos y administración de personal',
+    },
+    dispatcher: {
+      label: 'Despachador',
+      description: 'Coordina y programa asignaciones de guardias de seguridad',
+    },
+    securityGuard: {
+      label: 'Guardia de Seguridad',
+      description: 'Personal de seguridad de campo',
+    },
+    customer: {
+      label: 'Cliente',
+      description: 'Usuario cliente con acceso limitado a su cuenta',
     },
     custom: {
       label: 'Rol personalizado',
-      description: 'Acceso personalizado a recursos',
+      description: 'Rol personalizado con permisos específicos',
     },
   },
   user: {

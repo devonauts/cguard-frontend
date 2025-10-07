@@ -6,28 +6,28 @@ import { i18n } from 'src/i18n';
 import { useFormContext } from 'react-hook-form';
 import _uniqBy from 'lodash/uniqBy';
 
-function AutocompleteInMemoryFormItem(props) {
+function AutocompleteInMemoryFormItem({
+  label,
+  name,
+  hint,
+  placeholder,
+  autoFocus = false,
+  externalErrorMessage,
+  mode = 'single',
+  required = false,
+  isClearable = true,
+  mapper,
+  fetchFn,
+  showCreate = false,
+  hasPermissionToCreate = false,
+  ...props
+}) {
   const {
-    errors,
     watch,
     setValue,
     register,
-    formState: { touched, isSubmitted },
+    formState: { errors, isSubmitted, touchedFields },
   } = useFormContext();
-
-  const {
-    label,
-    name,
-    hint,
-    placeholder,
-    autoFocus,
-    externalErrorMessage,
-    mode,
-    required,
-    isClearable,
-    mapper,
-    fetchFn,
-  } = props;
 
   const originalValue = watch(name);
 
@@ -37,7 +37,7 @@ function AutocompleteInMemoryFormItem(props) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    register({ name });
+    register(name);
   }, [register, name]);
 
   useEffect(() => {
@@ -82,7 +82,7 @@ function AutocompleteInMemoryFormItem(props) {
   };
 
   const valueMultiple = () => {
-    if (originalValue) {
+    if (originalValue && Array.isArray(originalValue) && originalValue.length > 0) {
       return originalValue.map((value) =>
         prioritizeFromDataSource(
           mapper.toAutocomplete(value),
@@ -94,7 +94,7 @@ function AutocompleteInMemoryFormItem(props) {
   };
 
   const valueOne = () => {
-    if (originalValue) {
+    if (originalValue && originalValue !== '' && typeof originalValue === 'object') {
       return prioritizeFromDataSource(
         mapper.toAutocomplete(originalValue),
       );
@@ -168,7 +168,7 @@ function AutocompleteInMemoryFormItem(props) {
   const errorMessage = FormErrors.errorMessage(
     name,
     errors,
-    touched,
+    touchedFields,
     isSubmitted,
     externalErrorMessage,
   );
@@ -241,27 +241,5 @@ function AutocompleteInMemoryFormItem(props) {
     </div>
   );
 }
-
-AutocompleteInMemoryFormItem.defaultProps = {
-  isClearable: true,
-  mode: 'default',
-  required: false,
-};
-
-AutocompleteInMemoryFormItem.propTypes = {
-  fetchFn: PropTypes.func.isRequired,
-  mapper: PropTypes.object.isRequired,
-  required: PropTypes.bool,
-  mode: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  hint: PropTypes.string,
-  autoFocus: PropTypes.bool,
-  placeholder: PropTypes.string,
-  externalErrorMessage: PropTypes.string,
-  isClearable: PropTypes.bool,
-  showCreate: PropTypes.bool,
-  hasPermissionToCreate: PropTypes.bool,
-};
 
 export default AutocompleteInMemoryFormItem;

@@ -33,8 +33,8 @@ const schema = yup.object().shape({
 const emptyValues = {
   startTimeRange: [],
   endTimeRange: [],
-  station: null,
-  guard: null,
+  // station omitted - relation field will be undefined by default
+  // guard omitted - relation field will be undefined by default
 }
 
 const previewRenders = {
@@ -62,10 +62,21 @@ function ShiftListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const baseValues = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up any relation fields that have null values
+    // which would cause Yup casting errors
+    if (baseValues.station === null) {
+      delete baseValues.station;
+    }
+    if (baseValues.guard === null) {
+      delete baseValues.guard;
+    }
+    
+    return baseValues;
   });
 
   const form = useForm({

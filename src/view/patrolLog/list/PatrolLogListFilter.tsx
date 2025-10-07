@@ -43,13 +43,13 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  patrol: null,
-  scannedBy: null,
+  // patrol omitted - relation field will be undefined by default
+  // scannedBy omitted - relation field will be undefined by default
   scanTimeRange: [],
-  latitude: null,
-  longitude: null,
-  validLocation: null,
-  status: null,
+  latitude: '',
+  longitude: '',
+  // validLocation omitted - boolean field will be undefined by default
+  status: '', // enumerator - empty string gets transformed to null
 }
 
 const previewRenders = {
@@ -89,10 +89,24 @@ function PatrolLogListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const baseValues = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up any relation/boolean fields that have null values
+    // which would cause Yup casting errors
+    if (baseValues.patrol === null) {
+      delete baseValues.patrol;
+    }
+    if (baseValues.scannedBy === null) {
+      delete baseValues.scannedBy;
+    }
+    if (baseValues.validLocation === null) {
+      delete baseValues.validLocation;
+    }
+    
+    return baseValues;
   });
 
   const form = useForm({

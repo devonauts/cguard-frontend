@@ -21,6 +21,22 @@ function UserTable() {
     setRecordIdToDestroy,
   ] = useState(null);
 
+  // Helper function to safely parse roles
+  const parseRoles = (roles) => {
+    if (Array.isArray(roles)) {
+      return roles;
+    }
+    if (typeof roles === 'string') {
+      try {
+        const parsed = JSON.parse(roles);
+        return Array.isArray(parsed) ? parsed : [parsed];
+      } catch (e) {
+        return [];
+      }
+    }
+    return [];
+  };
+
   const loading = useSelector(selectors.selectLoading);
   const rows = useSelector(selectors.selectRows);
   const pagination = useSelector(
@@ -180,7 +196,7 @@ function UserTable() {
                     <td>{row.email}</td>
                     <td>{row.fullName}</td>
                     <td>
-                      {row.roles.map((roleId) => (
+                      {parseRoles(row.roles).map((roleId) => (
                         <div key={roleId}>
                           <span>
                             {Roles.labelOf(roleId)}

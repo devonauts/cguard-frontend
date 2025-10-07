@@ -38,11 +38,7 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  guardName: null,
   dateTutorialStartedRange: [],
-  tutorialStarted: null,
-  checkedTutorial: null,
-  wasCompleted: null,
   dateEndedTutorialRange: [],
 }
 
@@ -79,9 +75,25 @@ function CompletionOfTutorialListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
+    const cleanedFilter = { ...rawFilter };
+    
+    // Clean up relation and boolean fields that might have null values
+    if (cleanedFilter.guardName === null || cleanedFilter.guardName === '') {
+      delete cleanedFilter.guardName;
+    }
+    if (cleanedFilter.tutorialStarted === null || cleanedFilter.tutorialStarted === '') {
+      delete cleanedFilter.tutorialStarted;
+    }
+    if (cleanedFilter.checkedTutorial === null || cleanedFilter.checkedTutorial === '') {
+      delete cleanedFilter.checkedTutorial;
+    }
+    if (cleanedFilter.wasCompleted === null || cleanedFilter.wasCompleted === '') {
+      delete cleanedFilter.wasCompleted;
+    }
+    
     return {
       ...emptyValues,
-      ...rawFilter,
+      ...cleanedFilter,
     };
   });
 

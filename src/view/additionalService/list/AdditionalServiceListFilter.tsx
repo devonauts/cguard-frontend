@@ -38,12 +38,12 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  stationAditionalServiceName: null,
-  dvr: null,
-  dvrSerialCode: null,
-  juegoDeCamarasInteriores: null,
-  juegoDeCamarasExteriores: null,
-  stations: null,
+  stationAditionalServiceName: '',
+  dvr: '',
+  dvrSerialCode: '',
+  juegoDeCamarasInteriores: '',
+  juegoDeCamarasExteriores: '',
+  // stations: omitted (relation field)
 }
 
 const previewRenders = {
@@ -79,10 +79,17 @@ function AdditionalServiceListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const combined = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up relation field stored null values
+    if (combined.stations === null || combined.stations === '') {
+      delete combined.stations;
+    }
+    
+    return combined;
   });
 
   const form = useForm({

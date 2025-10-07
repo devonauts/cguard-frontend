@@ -11,9 +11,9 @@ function TagsFormItem(props) {
     name,
     hint,
     externalErrorMessage,
-    required,
+    required = false,
     placeholder,
-    isClearable,
+    isClearable = true,
     notFoundContent,
   } = props;
 
@@ -34,7 +34,7 @@ function TagsFormItem(props) {
   );
 
   useEffect(() => {
-    register({ name });
+    register(name);
   }, [register, name]);
 
   const originalValue = watch(name);
@@ -117,11 +117,6 @@ function TagsFormItem(props) {
     </div>
   );
 }
-
-TagsFormItem.defaultProps = {
-  required: false,
-  isClearable: true,
-};
 
 TagsFormItem.propTypes = {
   name: PropTypes.string.isRequired,

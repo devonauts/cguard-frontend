@@ -2103,11 +2103,39 @@ const ptBR = {
   roles: {
     admin: {
       label: 'Administrador',
-      description: 'Acesso completo a todos os recursos',
+      description: 'Acesso completo ao sistema e administração',
+    },
+    operationsManager: {
+      label: 'Gerente de Operações',
+      description: 'Gerencia operações de segurança gerais e estratégia',
+    },
+    securitySupervisor: {
+      label: 'Supervisor de Segurança',
+      description: 'Supervisiona guardas de segurança e operações de campo',
+    },
+    clientAccountManager: {
+      label: 'Gerente de Contas de Clientes',
+      description: 'Gerencia relacionamentos e contas de clientes',
+    },
+    hrManager: {
+      label: 'Gerente de Recursos Humanos',
+      description: 'Gerencia recursos humanos e administração de pessoal',
+    },
+    dispatcher: {
+      label: 'Despachante',
+      description: 'Coordena e agenda atribuições de guardas de segurança',
+    },
+    securityGuard: {
+      label: 'Guarda de Segurança',
+      description: 'Pessoal de segurança de campo',
+    },
+    customer: {
+      label: 'Cliente',
+      description: 'Usuário cliente com acesso limitado à sua conta',
     },
     custom: {
       label: 'Perfil Customizado',
-      description: 'Acesso customizado',
+      description: 'Perfil personalizado com permissões específicas',
     },
   },
 

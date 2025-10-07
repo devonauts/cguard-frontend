@@ -34,9 +34,9 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  title: null,
-  code: null,
-  description: null,
+  title: '',
+  code: '',
+  description: '',
   acquisitionDateRange: [],
   expirationDateRange: [],
 }

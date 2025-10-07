@@ -38,12 +38,12 @@ const schema = yup.object().shape({
 });
 
 const emptyValues = {
-  title: null,
-  body: null,
-  targetId: null,
-  whoCreatedTheNotification: null,
-  deliveryStatus: null,
-  readStatus: null,
+  title: '',
+  body: '',
+  targetId: '',
+  // whoCreatedTheNotification: omitted (relation field)
+  deliveryStatus: '',
+  // readStatus: omitted (boolean field)
 }
 
 const previewRenders = {
@@ -79,10 +79,17 @@ function NotificationListFilter(props) {
   const [expanded, setExpanded] = useState(false);
 
   const [initialValues] = useState(() => {
-    return {
+    const combined = {
       ...emptyValues,
       ...rawFilter,
     };
+    
+    // Clean up relation field stored null values
+    if (combined.whoCreatedTheNotification === null || combined.whoCreatedTheNotification === '') {
+      delete combined.whoCreatedTheNotification;
+    }
+    
+    return combined;
   });
 
   const form = useForm({

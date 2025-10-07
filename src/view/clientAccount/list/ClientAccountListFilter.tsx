@@ -44,13 +44,13 @@ const schema = yup.object().shape({
 
 const emptyValues = {
   contractDateRange: [],
-  rucNumber: null,
-  commercialName: null,
-  address: null,
-  phoneNumber: null,
-  faxNumber: null,
-  email: null,
-  representante: null,
+  rucNumber: '',
+  commercialName: '',
+  address: '',
+  phoneNumber: '',
+  faxNumber: '',
+  email: '',
+  // representante omitted - will be undefined by default
 }
 
 const previewRenders = {

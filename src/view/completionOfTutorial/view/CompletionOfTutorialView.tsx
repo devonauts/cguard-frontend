@@ -3,9 +3,9 @@ import Spinner from 'src/view/shared/Spinner';
 import ViewWrapper from 'src/view/shared/styles/ViewWrapper';
 import { i18n } from 'src/i18n';
 import TextViewItem from 'src/view/shared/view/TextViewItem';
-import moment from 'moment';
 import SecurityGuardViewItem from 'src/view/securityGuard/view/SecurityGuardViewItem';
 import TutorialViewItem from 'src/view/tutorial/view/TutorialViewItem';
+import { dateUtils } from 'src/utils/dateUtils';
 
 function CompletionOfTutorialView(props) {
   const { record, loading } = props;
@@ -25,8 +25,9 @@ function CompletionOfTutorialView(props) {
         label={i18n(
           'entities.completionOfTutorial.fields.dateTutorialStarted',
         )}
-        value={moment(record.dateTutorialStarted).format(
-          'YYYY-MM-DD HH:mm',
+        value={dateUtils.format(
+          record.dateTutorialStarted,
+          'yyyy-MM-dd HH:mm',
         )}
       />}
 
@@ -57,8 +58,9 @@ function CompletionOfTutorialView(props) {
         label={i18n(
           'entities.completionOfTutorial.fields.dateEndedTutorial',
         )}
-        value={moment(record.dateEndedTutorial).format(
-          'YYYY-MM-DD HH:mm',
+        value={dateUtils.format(
+          record.dateEndedTutorial,
+          'yyyy-MM-dd HH:mm',
         )}
       />}
     </ViewWrapper>
