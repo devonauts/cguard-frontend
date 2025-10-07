@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { i18n } from 'src/i18n';
@@ -110,7 +110,7 @@ function UserEditForm(props) {
               <button
                 className="btn btn-light"
                 disabled={props.saveLoading}
-                onClick={() => props.onCancel()}
+                onClick={() => props.onCancel?.()}
                 type="button"
               >
                 <i className="fas fa-times"></i>{' '}

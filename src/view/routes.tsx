@@ -98,8 +98,7 @@ const privateRoutes = [
 
   {
     path: '/settings',
-    loader: () =>
-      import('src/view/settings/SettingsFormPage'),
+    loader: () =>import('src/view/settings/SettingsFormPage'),
     permissionRequired: permissions.settingsEdit,
   },
 

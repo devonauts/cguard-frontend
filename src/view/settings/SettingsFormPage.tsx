@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { i18n } from 'src/i18n';
-import { getHistory } from 'src/modules/store';
 import ContentWrapper from 'src/view/layout/styles/ContentWrapper';
 import SettingsForm from 'src/view/settings/SettingsForm';
 import SettingsFormToolbar from 'src/view/settings/SettingsFormToolbar';
@@ -10,9 +9,11 @@ import Spinner from '../shared/Spinner';
 import actions from 'src/modules/settings/settingsActions';
 import selectors from 'src/modules/settings/settingsSelectors';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const SettingsFormPage = (props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const initLoading = useSelector(
     selectors.selectInitLoading,
@@ -22,8 +23,11 @@ const SettingsFormPage = (props) => {
 
   useEffect(() => {
     dispatch(actions.doInit());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleCancel = () => {
+    history.push('/');
+  };
 
   return (
     <>
@@ -44,7 +48,7 @@ const SettingsFormPage = (props) => {
         {!initLoading && settings && (
           <SettingsForm
             settings={settings}
-            onCancel={() => getHistory().push('/')}
+            onCancel={handleCancel}
           />
         )}
       </ContentWrapper>

@@ -10,18 +10,19 @@ function SwitchFormItem(props) {
     hint,
     required,
     externalErrorMessage,
+    onChange,
+    onBlur,
   } = props;
 
   const {
     register,
-    errors,
-    formState: { touched, isSubmitted },
+    formState: { errors, touchedFields, isSubmitted },
   } = useFormContext();
 
   const errorMessage = FormErrors.errorMessage(
     name,
     errors,
-    touched,
+    touchedFields,
     isSubmitted,
     externalErrorMessage,
   );
@@ -30,9 +31,7 @@ function SwitchFormItem(props) {
     <div className="form-group">
       {Boolean(label) && (
         <label
-          className={`col-form-label ${
-            required ? 'required' : null
-          }`}
+          className={`col-form-label ${required ? 'required' : ''}`}
           htmlFor={name}
         >
           {label}
@@ -44,14 +43,12 @@ function SwitchFormItem(props) {
           type="checkbox"
           className="custom-control-input"
           id={name}
-          name={name}
-          ref={register}
+          {...register(name)}
           onChange={(event) => {
-            props.onChange &&
-              props.onChange(event.target.checked);
+            onChange && onChange(event.target.checked);
           }}
           onBlur={(event) => {
-            props.onBlur && props.onBlur(event);
+            onBlur && onBlur(event);
           }}
         />
 
@@ -74,14 +71,14 @@ function SwitchFormItem(props) {
   );
 }
 
-SwitchFormItem.defaultProps = {};
-
 SwitchFormItem.propTypes = {
   name: PropTypes.string.isRequired,
   required: PropTypes.bool,
   label: PropTypes.string,
   hint: PropTypes.string,
   externalErrorMessage: PropTypes.string,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
 };
 
 export default SwitchFormItem;

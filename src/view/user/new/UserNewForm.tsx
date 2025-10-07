@@ -144,14 +144,14 @@ function UserNewForm(props) {
             {props.onCancel ? (
               <button
                 disabled={saveLoading}
-                onClick={() => props.onCancel()}
+                onClick={() => props.onCancel?.()}
                 className="btn btn-light"
                 type="button"
               >
-                <i className="fas fa-times"></i>{' '}
-                {i18n('common.cancel')}
+                <i className="fas fa-times"></i> {i18n('common.cancel')}
               </button>
             ) : null}
+
           </div>
         </form>
       </FormProvider>

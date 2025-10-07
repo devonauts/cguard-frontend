@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import { i18n } from 'src/i18n';
-import { getHistory } from 'src/modules/store';
 import actions from 'src/modules/user/form/userFormActions';
 import selectors from 'src/modules/user/form/userFormSelectors';
 import ContentWrapper from 'src/view/layout/styles/ContentWrapper';
@@ -14,6 +13,7 @@ import UserEditForm from 'src/view/user/edit/UserEditForm';
 function UserEditPage(props) {
   const dispatch = useDispatch();
   const [dispatched, setDispatched] = useState(false);
+  const history = useHistory();
 
   const initLoading = useSelector(
     selectors.selectInitLoading,
@@ -31,6 +31,10 @@ function UserEditPage(props) {
     dispatch(actions.doInit(match.params.id));
     setDispatched(true);
   }, [dispatch, match.params.id]);
+
+  const handleCancel = useCallback(() => {
+      history.replace('/user');
+    }, [history]);
 
   return (
     <>
@@ -51,7 +55,7 @@ function UserEditPage(props) {
           <UserEditForm
             user={user}
             saveLoading={saveLoading}
-            onCancel={() => getHistory().push('/user')}
+            onCancel={handleCancel}
           />
         )}
       </ContentWrapper>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import { i18n } from 'src/i18n';
 import actions from 'src/modules/patrol/form/patrolFormActions';
 import selectors from 'src/modules/patrol/form/patrolFormSelectors';
@@ -15,6 +15,8 @@ function PatrolFormPage(props) {
   const [dispatched, setDispatched] = useState(false);
   const dispatch = useDispatch();
   const match = useRouteMatch();
+
+  const history = useHistory();
 
   const initLoading = useSelector(
     selectors.selectInitLoading,
@@ -42,6 +44,10 @@ function PatrolFormPage(props) {
     }
   };
 
+  const handleCancel = () => {
+    history.push('/patrol');
+  }
+
   return (
     <>
       <Breadcrumb
@@ -64,7 +70,7 @@ function PatrolFormPage(props) {
             record={record}
             isEditing={isEditing}
             onSubmit={doSubmit}
-            onCancel={() => getHistory().push('/patrol')}
+            onCancel={handleCancel}
           />
         )}
       </ContentWrapper>
